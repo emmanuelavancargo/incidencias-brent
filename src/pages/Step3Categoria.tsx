@@ -2,10 +2,13 @@ import { useState } from 'react'
 import { ChevronLeft, Search } from 'lucide-react'
 import type { Viaje, Categoria } from '../types'
 import { CATEGORIAS, SUBCATEGORIAS } from '../types'
+import type { TipoIncidencia } from './StepTipo'
 
 interface Props {
   unidades: Viaje[]
   conductor: string | null
+  proveedor: string | null
+  tipo: TipoIncidencia | null
   onBack: () => void
   onSelect: (c: Categoria) => void
   onDirectSelect: (c: Categoria, sub: string) => void
@@ -23,7 +26,15 @@ function shortProveedor(p: string | null): string {
   return p.split(' ')[0]
 }
 
-export default function Step3Categoria({ unidades, conductor, onBack, onSelect, onDirectSelect }: Props) {
+function shortProveedor2(p: string | null): string {
+  if (!p) return '—'
+  if (p.includes('HAR')) return 'HAR'
+  if (p.includes('TIMOL')) return 'TIMOL'
+  if (p.includes('M &') || p.includes('M&')) return 'M&E'
+  return p
+}
+
+export default function Step3Categoria({ unidades, conductor, proveedor, tipo, onBack, onSelect, onDirectSelect }: Props) {
   const [query, setQuery] = useState('')
   const showSearch = query.length >= 2
 
@@ -46,8 +57,19 @@ export default function Step3Categoria({ unidades, conductor, onBack, onSelect, 
         </span>
       </div>
 
-      {/* Unidades card */}
+      {/* Contexto card */}
       <div className="rounded-2xl p-3 shadow-sm space-y-1.5" style={{ background: '#1E3252' }}>
+        {tipo === 'transporte' && proveedor && (
+          <div className="flex items-center gap-2">
+            <span className="font-mono-brand text-sm font-bold" style={{ color: '#FF6C02' }}>{shortProveedor2(proveedor)}</span>
+            <span className="text-white/40 text-xs">Transporte</span>
+          </div>
+        )}
+        {tipo === 'operacion' && (
+          <div className="flex items-center gap-2">
+            <span className="font-mono-brand text-sm font-bold" style={{ color: '#0DCB7B' }}>Operación general</span>
+          </div>
+        )}
         {unidades.map(v => (
           <div key={v.trip_id} className="flex items-center gap-2">
             <span className="font-mono-brand text-xs font-bold" style={{ color: '#FF6C02' }}>

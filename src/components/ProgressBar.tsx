@@ -1,8 +1,6 @@
-interface Props { step: 1 | 2 | 3 | 4 }
+interface Props { step: 1 | 2 | 3 | 4; label: string }
 
-const LABELS = ['Unidades', 'Conductor', 'Categoría', 'Subcategoría']
-
-export default function ProgressBar({ step }: Props) {
+export default function ProgressBar({ step, label }: Props) {
   return (
     <div className="px-4 py-2" style={{ background: '#1E3252' }}>
       <div className="flex gap-1.5 mb-1.5">
@@ -12,7 +10,7 @@ export default function ProgressBar({ step }: Props) {
         ))}
       </div>
       <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
-        Paso {step} de 4 — {LABELS[step - 1]}
+        Paso {step} de 4 — {label}
       </p>
     </div>
   )

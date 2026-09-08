@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Search, X, Plus, ChevronRight } from 'lucide-react'
+import { Search, X, Plus, ChevronRight, ChevronLeft } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import type { Viaje } from '../types'
 
@@ -39,9 +39,10 @@ interface Props {
   onAdd: (v: Viaje) => void
   onRemove: (tripId: string) => void
   onContinue: () => void
+  onBack: () => void
 }
 
-export default function Step1Unidades({ selected, onAdd, onRemove, onContinue }: Props) {
+export default function Step1Unidades({ selected, onAdd, onRemove, onContinue, onBack }: Props) {
   const [query, setQuery]     = useState('')
   const [results, setResults] = useState<Viaje[]>([])
   const [open, setOpen]       = useState(false)
@@ -74,7 +75,14 @@ export default function Step1Unidades({ selected, onAdd, onRemove, onContinue }:
   }
 
   return (
-    <div className="px-4 pt-5 pb-32 space-y-4 animate-fade-up">
+    <div className="px-4 pt-4 pb-32 space-y-4 animate-fade-up">
+      {/* Back */}
+      <div className="flex items-center gap-3">
+        <button onClick={onBack} className="p-2 rounded-xl hover:bg-gray-100 transition tap-active">
+          <ChevronLeft className="w-5 h-5" style={{ color: '#1E3252' }} />
+        </button>
+        <span className="text-sm text-gray-500">Unidad específica</span>
+      </div>
       <div>
         <h2 className="font-mono-brand text-xl font-bold" style={{ color: '#1E3252' }}>
           ¿Qué unidad/es?
