@@ -36,7 +36,7 @@ function progressStep(step: AppStep): 1 | 2 | 3 | 4 {
   return 4
 }
 
-function progressLabel(step: AppStep, tipo: TipoIncidencia | null): string {
+function progressLabel(step: AppStep, _tipo: TipoIncidencia | null): string {
   if (step === 'tipo')       return 'Tipo de incidencia'
   if (step === 'unidades')   return 'Unidades'
   if (step === 'proveedor')  return 'Transporte'
