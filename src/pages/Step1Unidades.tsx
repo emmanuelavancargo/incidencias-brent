@@ -53,9 +53,11 @@ export default function Step1Unidades({ selected, onAdd, onRemove, onContinue, o
     if (query.trim().length < 2) { setResults([]); setOpen(false); return }
     timer.current = setTimeout(async () => {
       const q = query.trim()
+      const cutoff = new Date(Date.now() - 36 * 60 * 60 * 1000).toISOString()
       const { data } = await supabase
         .from('viajes')
         .select('*')
+        .gte('synced_at', cutoff)
         .or(
           `trip_id.ilike.%${q}%,patente_camion.ilike.%${q}%,patente_trailer.ilike.%${q}%,` +
           `chofer.ilike.%${q}%,segundo_chofer.ilike.%${q}%,proveedor.ilike.%${q}%,estado.ilike.%${q}%`
